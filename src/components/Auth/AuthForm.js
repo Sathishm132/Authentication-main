@@ -4,6 +4,44 @@ import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const email=useRef();
+  const password=useRef();
+      
+  const submithandler=(event)=>{
+    event.preventDefault();
+    const enteredemail=email.current.value;
+    const  enteredpassword=password.current.value;
+    console.log(enteredemail)
+    if(isLogin){
+
+    }else{
+      fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDCR5rUw0Y_wizK-phDVLRRJ7mQ2qYxa0g",
+      {
+      method:"POST",
+      body:JSON.stringify({
+        email:enteredemail,
+        password:enteredpassword,
+        returnSecureToken:true,
+      }),
+      headers:{
+        "Content-type":"application/json"
+      }
+      }).then((res)=>{
+        if(res.ok){
+
+        }else{
+          return res.json().then((data)=>{
+            let Errormessage="Authentication failed";
+            if(data&&data.error&&data.error.message){
+              Errormessage=data.error.message
+            }
+            alert(Errormessage);
+          })
+        }
+      })
+    }
+
+  }
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -12,10 +50,10 @@ const AuthForm = () => {
   return (
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form >
+      <form onSubmit={submithandler} >
         <div className={classes.control}>
           <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required />
+          <input type='email' id='email' required ref={email} />
         </div>
         <div className={classes.control}>
           <label htmlFor='password'>Your Password</label>
@@ -23,9 +61,11 @@ const AuthForm = () => {
             type='password'
             id='password'
             required
+            ref={password}
           />
         </div>
         <div className={classes.actions}>
+          <button type='submit'>{isLogin?"login":"createaccount"}</button>
           <button
             type='button'
             className={classes.toggle}
