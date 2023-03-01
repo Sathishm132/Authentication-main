@@ -11,7 +11,7 @@ export const Authcontextprovider=(props)=>{
     const userisLogin = !!token;
     const loginhandler=(token)=>{
         setToken(token);
-        console.log(token)
+        console.log(!!token)
     }
     const logouthandler=()=>{
         setToken(null);

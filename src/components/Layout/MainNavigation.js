@@ -6,7 +6,7 @@ import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {
   const authcntx=useContext(Authcontext);
-  const islogin=authcntx.islogin;
+  const islogin=authcntx.isLogin;
   return (
     <header className={classes.header}>
       <Link to='/'>
