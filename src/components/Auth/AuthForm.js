@@ -12,10 +12,14 @@ const AuthForm = () => {
     const enteredemail=email.current.value;
     const  enteredpassword=password.current.value;
     console.log(enteredemail)
+    let url;
     if(isLogin){
+      url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDCR5rUw0Y_wizK-phDVLRRJ7mQ2qYxa0g"
 
     }else{
-      fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDCR5rUw0Y_wizK-phDVLRRJ7mQ2qYxa0g",
+      url="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDCR5rUw0Y_wizK-phDVLRRJ7mQ2qYxa0g"
+  }
+  fetch(url,
       {
       method:"POST",
       body:JSON.stringify({
@@ -28,20 +32,25 @@ const AuthForm = () => {
       }
       }).then((res)=>{
         if(res.ok){
+          return res.json()
 
         }else{
           return res.json().then((data)=>{
             let Errormessage="Authentication failed";
-            if(data&&data.error&&data.error.message){
-              Errormessage=data.error.message
-            }
-            alert(Errormessage);
+            // if(data&&data.error&&data.error.message){
+            //   Errormessage=data.error.message
+           // } 
+           throw new Error(Errormessage) 
+           
           })
         }
+      }).then((dat)=>{}).catch((err)=>{
+        alert(err.message)
+
+
       })
     }
 
-  }
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
