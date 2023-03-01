@@ -1,11 +1,15 @@
+import { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
 import UserProfile from './components/Profile/UserProfile';
+import Authcontext from './components/Store/Authcontext';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 
 function App() {
+  const authctx=useContext(Authcontext);
+  const isLogin=authctx.islogin;
   return (
     <Layout>
       <Switch>
@@ -15,9 +19,9 @@ function App() {
         <Route path='/auth'>
           <AuthPage />
         </Route>
-        <Route path='/profile'>
+        {isLogin&&<Route path='/profile'>
           <UserProfile />
-        </Route>
+        </Route>}
       </Switch>
     </Layout>
   );

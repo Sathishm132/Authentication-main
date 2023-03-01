@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Authcontext from '../Store/Authcontext';
 
 import classes from './MainNavigation.module.css';
@@ -7,8 +7,10 @@ import classes from './MainNavigation.module.css';
 const MainNavigation = () => {
   const authcntx=useContext(Authcontext);
   const islogin=authcntx.isLogin;
+  const history=useHistory()
   const logouthandler=()=>{
     authcntx.logout()
+    history.replace("auth")
   }
   return (
     <header className={classes.header}>
